@@ -1,0 +1,22 @@
+{
+  "name": "myfirstrag",
+  "version": "0.0.1",
+  "main": "index.ts",
+  "scripts": {
+    "dev": "npx ts-node index.ts"
+  },
+  "author": "Robin Schlenker",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@backroad/backroad": "^1.4.0-alpha.5",
+    "@langchain/community": "^0.2.10",
+    "@langchain/core": "^0.2.6",
+    "hnswlib-node": "^3.0.0",
+    "pdf-parse": "^1.1.1"
+  }
+}

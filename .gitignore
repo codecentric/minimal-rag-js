@@ -1,0 +1,10 @@
+# Node modules
+node_modules/
+
+# Editor config files (e.g., VSCode)
+*.imconfig
+.vscode/
+
+# Compiled TypeScript files
+*.js.map
+build/
