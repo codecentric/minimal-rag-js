@@ -3,7 +3,10 @@
   "version": "0.0.1",
   "main": "index.ts",
   "scripts": {
-    "dev": "npx ts-node index.ts"
+    "dev": "npx ts-node index.ts",
+    "embeddings": "npx ts-node enhancements/embeddings.ts",
+    "sources": "npx ts-node enhancements/show-sources.ts"
+    "split": "npx ts-node enhancements/text-splitting.ts",
   },
   "author": "Robin Schlenker",
   "license": "ISC",

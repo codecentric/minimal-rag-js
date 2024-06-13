@@ -33,7 +33,7 @@ async function initializeVectorDatabase(
 async function initializeRagChain(filePath: string): Promise<RunnableSequence> {
   const docs = await loadFiles(filePath)
   const vectorStore = await initializeVectorDatabase(docs)
-  const retriever = vectorStore.asRetriever()
+  const retriever = vectorStore.asRetriever(5)
   const prompt =
     PromptTemplate.fromTemplate(`Answer the question based only on the following context:
     {context}
@@ -50,7 +50,22 @@ async function initializeRagChain(filePath: string): Promise<RunnableSequence> {
     prompt,
     chatModel,
     new StringOutputParser(),
+    {
+      response: new RunnablePassthrough(),
+      sources: retriever,
+    },
   ])
+}
+
+function constructResponse(response: {
+  response: string
+  sources: object[]
+}): string {
+  let sourcesList = "Quellen:\n"
+  response.sources.forEach((source: any) => {
+    sourcesList += `* ${source.metadata.source} \n`
+  })
+  return `${response.response} \n\n ${sourcesList}`
 }
 
 function startChatUI(askRAG: Function) {
@@ -70,7 +85,7 @@ function startChatUI(askRAG: Function) {
       br.setValue("messages", [
         ...messages,
         { by: "human", content: input },
-        { by: "ai", content: response },
+        { by: "ai", content: constructResponse(response) },
       ])
     }
   })

@@ -13,12 +13,21 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
 import { Document } from "langchain/document"
 import { VectorStore } from "@langchain/core/vectorstores"
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib"
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters"
 
 async function loadFiles(path: string): Promise<Document[]> {
   const loader = new DirectoryLoader(path, {
     ".pdf": (path) => new PDFLoader(path),
   })
   return loader.load()
+}
+
+async function splitDocuments(docs: Document[]): Promise<Document[]> {
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 1000,
+    chunkOverlap: 20,
+  })
+  return splitter.splitDocuments(docs)
 }
 
 async function initializeVectorDatabase(
@@ -32,7 +41,8 @@ async function initializeVectorDatabase(
 
 async function initializeRagChain(filePath: string): Promise<RunnableSequence> {
   const docs = await loadFiles(filePath)
-  const vectorStore = await initializeVectorDatabase(docs)
+  const splittedDocs = await splitDocuments(docs)
+  const vectorStore = await initializeVectorDatabase(splittedDocs)
   const retriever = vectorStore.asRetriever()
   const prompt =
     PromptTemplate.fromTemplate(`Answer the question based only on the following context:

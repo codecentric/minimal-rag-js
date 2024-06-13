@@ -25,7 +25,7 @@ async function initializeVectorDatabase(
   documents: Document[],
 ): Promise<VectorStore> {
   const embeddings = new OllamaEmbeddings({
-    model: "nomic-embed-text",
+    model: "jina/jina-embeddings-v2-base-de",
   })
   return HNSWLib.fromDocuments(documents, embeddings)
 }

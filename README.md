@@ -18,13 +18,20 @@ After installing these dependencies, start the ui:
 ```bash
 yarn dev
 ```
-and visit [your localhost](http://localhost:3333) to get access to the RAG-based chat. 
+and visit [your localhost](http://localhost:3333) to get access to the RAG-based chat.
+
+## Enhancements
+
+Some of the suggested enhancements are implemented in the `enhancements` directory. To run them, use the respective node script from `package.json`. E.g. run `yarn embeddings`
+* **embeddings** Shows how a different embedding e.g. for german language could drastically improve the quality of the RAG-System
+* **sources** Also print used sources to enable the user to see what documents were used
+* **split** Improve input by splitting text into smaller chunks
 
 ## Additional information
 
 It was built using
 
-- LangChain (js)
-- ollama (open source models)
-- backroad (chat ui)
+- [LangChain (js)](https://js.langchain.com/v0.1/docs/get_started/introduction)
+- [ollama (open source models)](https://ollama.com/)
+- [backroad (chat ui)](https://backroad.sudomakes.art/)
 
