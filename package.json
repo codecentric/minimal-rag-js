@@ -17,6 +17,7 @@
     "@langchain/community": "^0.2.10",
     "@langchain/core": "^0.2.6",
     "hnswlib-node": "^3.0.0",
-    "pdf-parse": "^1.1.1"
+    "pdf-parse": "^1.1.1",
+    "prettier": "^3.3.2"
   }
 }
