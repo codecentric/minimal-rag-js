@@ -1,0 +1,74 @@
+[
+  {
+    "question": "Welches LLM wird als Beispiel für kleine Modelle genannt?",
+    "answer": "llama3"
+  },
+  {
+    "question": "Wie wird das Modell llama3 gestartet?",
+    "answer": "ollama run llama3"
+  },
+  {
+    "question": "Welche Portnummer nutzt das Open WebUI Interface?",
+    "answer": "3000"
+  },
+  {
+    "question": "Welche Bibliothek wird für die Kommunikation mit LLMs genutzt?",
+    "answer": "LangChain"
+  },
+  {
+    "question": "Was bezeichnet der Begriff GenAI?",
+    "answer": "Generative künstliche Intelligenz"
+  },
+  {
+    "question": "Welche Größe hat das StarCoder2 Modell?",
+    "answer": "1,7 GB"
+  },
+  {
+    "question": "Wer bearbeitet den Retrieval-Prozess in einem RAG?",
+    "answer": "Der Retriever"
+  },
+  {
+    "question": "Wann wurde ChatGPT veröffentlicht?",
+    "answer": "2022"
+  },
+  {
+    "question": "Was bedeutet RAG?",
+    "answer": "Retrieval-Augmented Generation"
+  },
+  {
+    "question": "Welches CLI-Tool wird für das Laden von KI-Modellen erwähnt?",
+    "answer": "ollama"
+  },
+  {
+    "question": "Welche Komponente wird für das Einbetten der Daten verwendet?",
+    "answer": "OllamaEmbeddings"
+  },
+  {
+    "question": "Wie werden PDF-Seiten standardmäßig geladen?",
+    "answer": "Jede PDF-Seite wird als eigenes Dokument hochgeladen."
+  },
+  {
+    "question": "Welches Tool bietet ein Interface ähnlich wie ChatGPT?",
+    "answer": "Open WebUI"
+  },
+  {
+    "question": "Was ist Backroad?",
+    "answer": "Ein JavaScript-Tool, um schnell Frontend-Prototypen zu erstellen."
+  },
+  {
+    "question": "Welche Schnittstelle ermöglicht das Ansprechen von ollama-Modellen?",
+    "answer": "REST-Api"
+  },
+  {
+    "question": "Welche Sprache wird für das Projekt verwendet?",
+    "answer": "TypeScript"
+  },
+  {
+    "question": "Wozu wird Hnswlib verwendet?",
+    "answer": "Vektoren In-Memory speichern"
+  },
+  {
+    "question": "Welches Tool wird zur Code Completion verwendet?",
+    "answer": "Continue"
+  }
+]
