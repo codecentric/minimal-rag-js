@@ -1,38 +1,28 @@
-import * as fs from "node:fs"
 import { initializeRagChain } from "../ragChain"
+import { getAndVerifyCLIParameter, getQuestions, writeTestResult } from "./util"
 
-const datasetName = process.argv[2]
-if (!datasetName) {
-  console.log("Missing mandatory second CLI parameter (dataset name)")
-  process.exit()
-}
+const datasetName = getAndVerifyCLIParameter()
 
 async function generateTestData() {
-  const questionsAsText = fs.readFileSync(
-    "evaluation/data/questions.json",
-    "utf8",
-  )
-  const questions = JSON.parse(questionsAsText)
-
+  const questions = getQuestions()
   const chain = await initializeRagChain("./data")
+
   const testData = []
-  for (const { question, answer } of questions) {
-    console.log("requesting answer for question: " + question)
+  for (const { question, groundTruth } of questions) {
+    console.log("Requesting answer for question: " + question)
     const start = Date.now()
-    const { response, context } = await chain.invoke(question)
+    const { answer, context } = await chain.invoke(question)
     const end = Date.now()
+
     testData.push({
-      question: question,
-      groundTruth: answer,
-      answer: response,
-      context: context,
+      question,
+      groundTruth,
+      answer,
+      context,
       executionTimeInSeconds: (end - start) / 1000,
     })
   }
-  fs.writeFileSync(
-    `evaluation/data/test-data-${datasetName}.json`,
-    JSON.stringify(testData, null, 2),
-  )
+  writeTestResult(datasetName, testData)
 }
 
 generateTestData()

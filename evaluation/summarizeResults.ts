@@ -1,11 +1,10 @@
-import { getEvaluationResult } from "./util"
+import {
+  averageOfField,
+  getAndVerifyCLIParameter,
+  getEvaluationResult,
+} from "./util"
 
-const datasetName = process.argv[2]
-if (!datasetName) {
-  console.log("Missing mandatory second CLI parameter (dataset name)")
-  process.exit()
-}
-
+const datasetName = getAndVerifyCLIParameter()
 const evaluationResults = getEvaluationResult(datasetName)
 
 const critiques = [
@@ -18,8 +17,6 @@ critiques.forEach((criteria) => {
   const resultsOfCriteria = evaluationResults.filter(
     (r) => r.criteria === criteria,
   )
-  const average =
-    resultsOfCriteria.map((r) => r.score).reduce((a, b) => a + b) /
-    resultsOfCriteria.length
+  const average = averageOfField("score", resultsOfCriteria)
   console.log(`${criteria}: ${average.toFixed(3)}`)
 })

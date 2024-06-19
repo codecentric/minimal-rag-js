@@ -12,12 +12,21 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf"
 import { Document } from "langchain/document"
 import { VectorStore } from "@langchain/core/vectorstores"
 import { HNSWLib } from "@langchain/community/vectorstores/hnswlib"
+import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters"
 
 async function loadFiles(path: string): Promise<Document[]> {
   const loader = new DirectoryLoader(path, {
     ".pdf": (path) => new PDFLoader(path),
   })
   return loader.load()
+}
+
+async function splitDocuments(docs: Document[]): Promise<Document[]> {
+  const splitter = new RecursiveCharacterTextSplitter({
+    chunkSize: 500,
+    chunkOverlap: 20,
+  })
+  return splitter.splitDocuments(docs)
 }
 
 async function initializeVectorDatabase(
@@ -33,7 +42,8 @@ export async function initializeRagChain(
   filePath: string,
 ): Promise<RunnableSequence> {
   const docs = await loadFiles(filePath)
-  const vectorStore = await initializeVectorDatabase(docs)
+  const splittedDocs = await splitDocuments(docs)
+  const vectorStore = await initializeVectorDatabase(splittedDocs)
   const retriever = vectorStore.asRetriever()
   const prompt =
     PromptTemplate.fromTemplate(`You are an expert in Computer science. Answer the question based only on the following context. Always answer in the same language of the question. Answer concise and accurate.
@@ -53,7 +63,7 @@ export async function initializeRagChain(
     new StringOutputParser(),
     {
       context: retriever.pipe(formatDocumentsAsString),
-      response: new RunnablePassthrough(),
+      answer: new RunnablePassthrough(),
     },
   ])
 }
