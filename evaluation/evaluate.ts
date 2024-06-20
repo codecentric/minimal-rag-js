@@ -3,6 +3,7 @@ import { AzureChatOpenAI } from "@langchain/openai"
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama"
 import {
   averageOfField,
+  generateMinimalStatementsFromAnswer,
   generateQuestionsFromAnswer,
   getAndVerifyCLIParameter,
   getTestResult,
@@ -19,6 +20,7 @@ const evaluate = async () => {
     evaluationResults.push(await evaluateCorrectness(dataSet))
     evaluationResults.push(await evaluateRelevance(dataSet))
     evaluationResults.push(await evaluateLanguageLoyalty(dataSet))
+    evaluationResults.push(await evaluateFaithfulness(dataSet))
     evaluationResults.push(evaluateExecutionTime(dataSet))
   }
   writeEvaluationResult(datasetName, evaluationResults)
@@ -43,6 +45,35 @@ async function evaluateCorrectness({ question, answer, groundTruth, context }) {
     groundTruth,
     score: evaluation.score,
     reasoning: evaluation.reasoning,
+  }
+}
+
+async function evaluateFaithfulness({ answer, context }) {
+  const statements = await generateMinimalStatementsFromAnswer(answer)
+  const model = new AzureChatOpenAI()
+  const criteria = {
+    faithfulness:
+      "Can the following statement directly be derived from the input?",
+  }
+  const evaluator = await loadEvaluator("criteria", {
+    criteria,
+    llm: model,
+  })
+  let overallFaithfulness = 0
+  for (const statement of statements) {
+    const faithfulness = await evaluator.evaluateStrings({
+      input: context,
+      prediction: statement,
+    })
+    if (faithfulness.score === 1) overallFaithfulness++
+  }
+  console.log("Faitfulness: " + overallFaithfulness / statements.length)
+  return {
+    criteria: "faithfulness",
+    score: overallFaithfulness / statements.length,
+    syntheticStatements: statements,
+    answer,
+    context,
   }
 }
 

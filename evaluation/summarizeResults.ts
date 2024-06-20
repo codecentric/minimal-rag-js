@@ -12,6 +12,7 @@ const critiques = [
   "executionTime",
   "relevance",
   "languageLoyalty",
+  "faithfulness",
 ]
 critiques.forEach((criteria) => {
   const resultsOfCriteria = evaluationResults.filter(

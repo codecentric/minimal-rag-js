@@ -18,6 +18,14 @@ export async function generateQuestionsFromAnswer(answer) {
   return response.content.toString().split("XXX")
 }
 
+export async function generateMinimalStatementsFromAnswer(answer: string) {
+  const model = new AzureChatOpenAI()
+  const response = await model.invoke(
+    `Generate 5 minimal statements which can be directly derived from the following context. Separate each statement only with 'XXX'. The statements should be as clear as possible. \n CONTEXT: ${answer}`,
+  )
+  return response.content.toString().split("XXX")
+}
+
 export function averageOfField(field: string, list: object[]): number {
   return list.map((e) => e[field]).reduce((a, b) => a + b, 0) / list.length
 }
