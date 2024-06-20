@@ -14,11 +14,5 @@ export async function evaluateLanguageLoyalty(testDataSet) {
     input: testDataSet.question,
     prediction: testDataSet.answer,
   })
-  return {
-    criteria: "languageLoyalty",
-    question: testDataSet.question,
-    answer: testDataSet.answer,
-    score: languageResult.score,
-    reasoning: languageResult.reasoning,
-  }
+  return languageResult.score
 }

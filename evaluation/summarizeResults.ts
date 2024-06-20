@@ -15,9 +15,6 @@ const critiques = [
   "faithfulness",
 ]
 critiques.forEach((criteria) => {
-  const resultsOfCriteria = evaluationResults.filter(
-    (r) => r.criteria === criteria,
-  )
-  const average = averageOfField("score", resultsOfCriteria)
+  const average = averageOfField(criteria, evaluationResults)
   console.log(`${criteria}: ${average.toFixed(3)}`)
 })

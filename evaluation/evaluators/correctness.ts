@@ -12,12 +12,5 @@ export async function evaluateCorrectness({ question, answer, groundTruth }) {
     prediction: answer,
     reference: groundTruth,
   })
-  return {
-    criteria: "correctness",
-    question,
-    answer,
-    groundTruth,
-    score: evaluation.score,
-    reasoning: evaluation.reasoning,
-  }
+  return evaluation.score
 }

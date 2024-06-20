@@ -20,8 +20,8 @@ async function generateTestData() {
 
     testData.push({
       question,
-      groundTruth,
       answer,
+      groundTruth,
       context,
       executionTimeInSeconds: (end - start) / 1000,
     })

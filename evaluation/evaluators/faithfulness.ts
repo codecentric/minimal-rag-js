@@ -20,13 +20,7 @@ export async function evaluateFaithfulness({ answer, context }) {
     })
     if (faithfulness.score === 1) overallFaithfulness++
   }
-  return {
-    criteria: "faithfulness",
-    score: overallFaithfulness / statements.length,
-    syntheticStatements: statements,
-    answer,
-    context,
-  }
+  return overallFaithfulness / statements.length
 }
 
 export async function generateMinimalStatementsFromAnswer(answer: string) {

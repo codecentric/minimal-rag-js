@@ -10,7 +10,11 @@ export function getAndVerifyCLIParameter(): string {
 }
 
 export function averageOfField(field: string, list: object[]): number {
-  return list.map((e) => e[field]).reduce((a, b) => a + b, 0) / list.length
+  return average(list.map((e) => e[field]))
+}
+
+export function average(list: number[]) {
+  return list.reduce((a, b) => a + b, 0) / list.length
 }
 
 export function getQuestionsFromFile() {

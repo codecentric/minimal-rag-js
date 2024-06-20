@@ -1,4 +1,4 @@
-import { averageOfField } from "../util"
+import { average } from "../util"
 import { loadEvaluator } from "langchain/evaluation"
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama"
 import { AzureChatOpenAI } from "@langchain/openai"
@@ -16,15 +16,9 @@ export async function evaluateRelevance({ question, answer }) {
       prediction: syntheticQuestion,
       reference: question,
     })
-    relevances.push(relevance)
+    relevances.push(relevance.score)
   }
-  return {
-    criteria: "relevance",
-    question: question,
-    answer: answer,
-    syntheticQuestions: questions,
-    score: averageOfField("score", relevances),
-  }
+  return average(relevances)
 }
 
 export async function generateQuestionsFromAnswer(answer) {
