@@ -21,7 +21,7 @@ export async function evaluateFaithfulness({ answer, context }) {
   return overallFaithfulness / statements.length
 }
 
-export async function generateMinimalStatementsFromAnswer(answer: string) {
+async function generateMinimalStatementsFromAnswer(answer: string) {
   const model = new AzureChatOpenAI()
   const response = await model.invoke(
     `Generate 5 minimal statements which can be directly derived from the following context. Separate each statement only with 'XXX'. The statements should be as clear as possible. \n CONTEXT: ${answer}`,

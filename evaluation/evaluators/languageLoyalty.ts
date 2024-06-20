@@ -2,7 +2,7 @@ import { loadEvaluator } from "langchain/evaluation"
 
 // Is answer and question in the same language?
 
-export async function evaluateLanguageLoyalty(testDataSet) {
+export async function evaluateLanguageLoyalty({ question, answer }) {
   const criteria = {
     languageLoyalty: "Is the output in the same language as the input?",
   }
@@ -10,8 +10,8 @@ export async function evaluateLanguageLoyalty(testDataSet) {
     criteria,
   })
   const languageResult = await evaluator.evaluateStrings({
-    input: testDataSet.question,
-    prediction: testDataSet.answer,
+    input: question,
+    prediction: answer,
   })
   return languageResult.score
 }

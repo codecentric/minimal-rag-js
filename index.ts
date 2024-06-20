@@ -18,7 +18,7 @@ function startChatUI(askRAG: Function) {
       br.setValue("messages", [
         ...messages,
         { by: "human", content: input },
-        { by: "ai", content: response },
+        { by: "ai", content: response.answer },
       ])
     }
   })
