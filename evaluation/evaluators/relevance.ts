@@ -3,6 +3,10 @@ import { loadEvaluator } from "langchain/evaluation"
 import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama"
 import { AzureChatOpenAI } from "@langchain/openai"
 
+// Was the answer relevant to the question?
+// We check this by generating questions based on the answer and comparing the
+// cosine distance between real question and the synthetic ones
+
 export async function evaluateRelevance({ question, answer }) {
   const questions = await generateQuestionsFromAnswer(answer)
   const evaluator = await loadEvaluator("embedding_distance", {

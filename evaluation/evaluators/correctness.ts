@@ -1,11 +1,10 @@
-import { AzureChatOpenAI } from "@langchain/openai"
 import { loadEvaluator } from "langchain/evaluation"
 
+// Is the answer correct based on the ground truth (factually-based answer?)
+
 export async function evaluateCorrectness({ question, answer, groundTruth }) {
-  const model = new AzureChatOpenAI()
   const evaluator = await loadEvaluator("labeled_criteria", {
     criteria: "correctness",
-    llm: model,
   })
   const evaluation = await evaluator.evaluateStrings({
     input: question,

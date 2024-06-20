@@ -1,17 +1,15 @@
 import { AzureChatOpenAI } from "@langchain/openai"
 import { loadEvaluator } from "langchain/evaluation"
 
+// Can all statements of the answer be retrieved only from the given context?
+
 export async function evaluateFaithfulness({ answer, context }) {
   const statements = await generateMinimalStatementsFromAnswer(answer)
-  const model = new AzureChatOpenAI()
   const criteria = {
     faithfulness:
       "Can the following statement directly be derived from the input?",
   }
-  const evaluator = await loadEvaluator("criteria", {
-    criteria,
-    llm: model,
-  })
+  const evaluator = await loadEvaluator("criteria", { criteria })
   let overallFaithfulness = 0
   for (const statement of statements) {
     const faithfulness = await evaluator.evaluateStrings({
