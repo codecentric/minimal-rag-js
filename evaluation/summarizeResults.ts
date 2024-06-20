@@ -1,11 +1,11 @@
 import {
   averageOfField,
   getAndVerifyCLIParameter,
-  getEvaluationResult,
+  getEvaluationResultFromFile,
 } from "./util"
 
 const datasetName = getAndVerifyCLIParameter()
-const evaluationResults = getEvaluationResult(datasetName)
+const evaluationResults = getEvaluationResultFromFile(datasetName)
 
 const critiques = [
   "correctness",

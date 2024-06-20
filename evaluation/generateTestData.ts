@@ -1,10 +1,14 @@
 import { initializeRagChain } from "../ragChain"
-import { getAndVerifyCLIParameter, getQuestions, writeTestResult } from "./util"
+import {
+  getAndVerifyCLIParameter,
+  getQuestionsFromFile,
+  writeTestResultToFile,
+} from "./util"
 
 const datasetName = getAndVerifyCLIParameter()
 
 async function generateTestData() {
-  const questions = getQuestions()
+  const questions = getQuestionsFromFile()
   const chain = await initializeRagChain("./data")
 
   const testData = []
@@ -22,7 +26,7 @@ async function generateTestData() {
       executionTimeInSeconds: (end - start) / 1000,
     })
   }
-  writeTestResult(datasetName, testData)
+  writeTestResultToFile(datasetName, testData)
 }
 
 generateTestData()

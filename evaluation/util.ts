@@ -1,5 +1,4 @@
 import fs from "node:fs"
-import { AzureChatOpenAI } from "@langchain/openai"
 
 export function getAndVerifyCLIParameter(): string {
   const datasetName = process.argv[2]
@@ -10,43 +9,27 @@ export function getAndVerifyCLIParameter(): string {
   return datasetName
 }
 
-export async function generateQuestionsFromAnswer(answer) {
-  const model = new AzureChatOpenAI()
-  const response = await model.invoke(
-    `Generate 10 Questions which could have been asked for the following answer. Separate each question only with 'XXX'. End each question with a '?'. \n answer:\n${answer}`,
-  )
-  return response.content.toString().split("XXX")
-}
-
-export async function generateMinimalStatementsFromAnswer(answer: string) {
-  const model = new AzureChatOpenAI()
-  const response = await model.invoke(
-    `Generate 5 minimal statements which can be directly derived from the following context. Separate each statement only with 'XXX'. The statements should be as clear as possible. \n CONTEXT: ${answer}`,
-  )
-  return response.content.toString().split("XXX")
-}
-
 export function averageOfField(field: string, list: object[]): number {
   return list.map((e) => e[field]).reduce((a, b) => a + b, 0) / list.length
 }
 
-export function getQuestions() {
-  return getEvaluationDataFile("questions")
+export function getQuestionsFromFile() {
+  return getEvaluationFile("questions")
 }
 
-export function getEvaluationResult(testName: string) {
-  return getEvaluationDataFile(`evaluation-result-${testName}`)
+export function getEvaluationResultFromFile(testName: string) {
+  return getEvaluationFile(`evaluation-result-${testName}`)
 }
 
-export function writeEvaluationResult(testName: string, content: any) {
+export function writeEvaluationResultToFile(testName: string, content: any) {
   return writeToEvaluationFile(`evaluation-result-${testName}`, content)
 }
 
-export function getTestResult(testName: string) {
-  return getEvaluationDataFile(`test-data-${testName}`)
+export function getTestResultFromFile(testName: string) {
+  return getEvaluationFile(`test-data-${testName}`)
 }
 
-export function writeTestResult(testName: string, content: any) {
+export function writeTestResultToFile(testName: string, content: any) {
   return writeToEvaluationFile(`test-data-${testName}`, content)
 }
 
@@ -57,7 +40,7 @@ const writeToEvaluationFile = (fileName: string, content: any) => {
   )
 }
 
-const getEvaluationDataFile = (fileName: string) => {
+const getEvaluationFile = (fileName: string) => {
   const fileContent = fs.readFileSync(
     `evaluation/data/${fileName}.json`,
     "utf-8",

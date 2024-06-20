@@ -1,135 +1,28 @@
-import { loadEvaluator } from "langchain/evaluation"
-import { AzureChatOpenAI } from "@langchain/openai"
-import { OllamaEmbeddings } from "@langchain/community/embeddings/ollama"
 import {
-  averageOfField,
-  generateMinimalStatementsFromAnswer,
-  generateQuestionsFromAnswer,
   getAndVerifyCLIParameter,
-  getTestResult,
-  writeEvaluationResult,
+  getTestResultFromFile,
+  writeEvaluationResultToFile,
 } from "./util"
+import { evaluateRelevance } from "./evaluators/relevance"
+import { evaluateCorrectness } from "./evaluators/correctness"
+import { evaluateLanguageLoyalty } from "./evaluators/languageLoyalty"
+import { evaluateFaithfulness } from "./evaluators/faithfulness"
+import { evaluateExecutionTime } from "./evaluators/executionTime"
 
 const datasetName = getAndVerifyCLIParameter()
 
 const evaluate = async () => {
-  const testData = getTestResult(datasetName)
+  const testData = getTestResultFromFile(datasetName)
   const evaluationResults = []
   for (const dataSet of testData) {
-    console.log(`Evaluation for ${dataSet.question}`)
+    console.log(`Evaluation for: ${dataSet.question}`)
     evaluationResults.push(await evaluateCorrectness(dataSet))
     evaluationResults.push(await evaluateRelevance(dataSet))
     evaluationResults.push(await evaluateLanguageLoyalty(dataSet))
     evaluationResults.push(await evaluateFaithfulness(dataSet))
     evaluationResults.push(evaluateExecutionTime(dataSet))
   }
-  writeEvaluationResult(datasetName, evaluationResults)
-}
-
-async function evaluateCorrectness({ question, answer, groundTruth, context }) {
-  const model = new AzureChatOpenAI()
-  const evaluator = await loadEvaluator("labeled_criteria", {
-    criteria: "correctness",
-    llm: model,
-  })
-  const evaluation = await evaluator.evaluateStrings({
-    input: question,
-    prediction: answer,
-    reference: groundTruth,
-  })
-  return {
-    criteria: "correctness",
-    question,
-    answer,
-    context,
-    groundTruth,
-    score: evaluation.score,
-    reasoning: evaluation.reasoning,
-  }
-}
-
-async function evaluateFaithfulness({ answer, context }) {
-  const statements = await generateMinimalStatementsFromAnswer(answer)
-  const model = new AzureChatOpenAI()
-  const criteria = {
-    faithfulness:
-      "Can the following statement directly be derived from the input?",
-  }
-  const evaluator = await loadEvaluator("criteria", {
-    criteria,
-    llm: model,
-  })
-  let overallFaithfulness = 0
-  for (const statement of statements) {
-    const faithfulness = await evaluator.evaluateStrings({
-      input: context,
-      prediction: statement,
-    })
-    if (faithfulness.score === 1) overallFaithfulness++
-  }
-  console.log("Faitfulness: " + overallFaithfulness / statements.length)
-  return {
-    criteria: "faithfulness",
-    score: overallFaithfulness / statements.length,
-    syntheticStatements: statements,
-    answer,
-    context,
-  }
-}
-
-async function evaluateRelevance({ question, answer }) {
-  const questions = await generateQuestionsFromAnswer(answer)
-  const evaluator = await loadEvaluator("embedding_distance", {
-    embedding: new OllamaEmbeddings({
-      model: "jina/jina-embeddings-v2-base-de",
-    }),
-  })
-  const relevances = []
-  for (const syntheticQuestion of questions) {
-    const relevance = await evaluator.evaluateStrings({
-      prediction: syntheticQuestion,
-      reference: question,
-    })
-    relevances.push(relevance)
-  }
-  return {
-    criteria: "relevance",
-    question: question,
-    answer: answer,
-    syntheticQuestions: questions,
-    score: averageOfField("score", relevances),
-  }
-}
-
-function evaluateExecutionTime(testDataSet) {
-  return {
-    criteria: "executionTime",
-    question: testDataSet.question,
-    answer: testDataSet.answer,
-    score: testDataSet.executionTimeInSeconds,
-  }
-}
-
-async function evaluateLanguageLoyalty(testDataSet) {
-  const model = new AzureChatOpenAI()
-  const criteria = {
-    languageLoyalty: "Is the output in the same language as the input?",
-  }
-  const evaluator = await loadEvaluator("criteria", {
-    criteria,
-    llm: model,
-  })
-  const languageResult = await evaluator.evaluateStrings({
-    input: testDataSet.question,
-    prediction: testDataSet.answer,
-  })
-  return {
-    criteria: "languageLoyalty",
-    question: testDataSet.question,
-    answer: testDataSet.answer,
-    score: languageResult.score,
-    reasoning: languageResult.reasoning,
-  }
+  writeEvaluationResultToFile(datasetName, evaluationResults)
 }
 
 evaluate()
