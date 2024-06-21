@@ -10,7 +10,7 @@ import { evaluateFaithfulness } from "./evaluators/faithfulness"
 
 const datasetName = getAndVerifyCLIParameter()
 
-const evaluate = async () => {
+async function evaluate() {
   const testData = getTestResultFromFile(datasetName)
   const evaluationResults = []
   for (const dataSet of testData) {
