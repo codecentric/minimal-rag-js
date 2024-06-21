@@ -8,7 +8,6 @@ const datasetName = getAndVerifyCLIParameter()
 const evaluationResults = getEvaluationResultFromFile(datasetName)
 
 const critiques = [
-  "correctness",
   "executionTime",
   "relevance",
   "languageLoyalty",
