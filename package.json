@@ -6,7 +6,11 @@
     "dev": "npx ts-node index.ts",
     "embeddings": "npx ts-node enhancements/embeddings.ts",
     "sources": "npx ts-node enhancements/show-sources.ts",
-    "split": "npx ts-node enhancements/text-splitting.ts"
+    "split": "npx ts-node enhancements/text-splitting.ts",
+    "generate-test-data": "npx ts-node evaluation/generateTestData.ts",
+    "evaluate": "source azure.env && npx ts-node evaluation/evaluate.ts",
+    "serve-for-evaluation": "source azure.env && npx ts-node evaluation/index.ts",
+    "summarize": "npx ts-node evaluation/summarizeResults.ts"
   },
   "author": "Robin Schlenker",
   "license": "ISC",
@@ -19,6 +23,7 @@
     "@backroad/backroad": "^1.4.0-alpha.5",
     "@langchain/community": "^0.2.10",
     "@langchain/core": "^0.2.6",
+    "@langchain/openai": "^0.1.3",
     "hnswlib-node": "^3.0.0",
     "pdf-parse": "^1.1.1",
     "prettier": "^3.3.2"

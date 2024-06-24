@@ -1,0 +1,74 @@
+[
+  {
+    "question": "Welches LLM wird als Beispiel für kleine Modelle genannt?",
+    "groundTruth": "llama3"
+  },
+  {
+    "question": "Wie wird das Modell llama3 gestartet?",
+    "groundTruth": "ollama run llama3"
+  },
+  {
+    "question": "Welche Portnummer nutzt das Open WebUI Interface?",
+    "groundTruth": "3000"
+  },
+  {
+    "question": "Welche Bibliothek wird für die Kommunikation mit LLMs genutzt?",
+    "groundTruth": "LangChain"
+  },
+  {
+    "question": "Was bezeichnet der Begriff GenAI?",
+    "groundTruth": "Generative künstliche Intelligenz"
+  },
+  {
+    "question": "Welche Größe hat das StarCoder2 Modell?",
+    "groundTruth": "1,7 GB"
+  },
+  {
+    "question": "Wer bearbeitet den Retrieval-Prozess in einem RAG?",
+    "groundTruth": "Der Retriever"
+  },
+  {
+    "question": "Wann wurde ChatGPT veröffentlicht?",
+    "groundTruth": "2022"
+  },
+  {
+    "question": "Was bedeutet RAG?",
+    "groundTruth": "Retrieval-Augmented Generation"
+  },
+  {
+    "question": "Welches CLI-Tool wird für das Laden von KI-Modellen erwähnt?",
+    "groundTruth": "ollama"
+  },
+  {
+    "question": "Welche Komponente wird für das Einbetten der Daten verwendet?",
+    "groundTruth": "OllamaEmbeddings"
+  },
+  {
+    "question": "Wie werden PDF-Seiten standardmäßig geladen?",
+    "groundTruth": "Jede PDF-Seite wird als eigenes Dokument hochgeladen."
+  },
+  {
+    "question": "Welches Tool bietet ein Interface ähnlich wie ChatGPT?",
+    "groundTruth": "Open WebUI"
+  },
+  {
+    "question": "Was ist Backroad?",
+    "groundTruth": "Ein JavaScript-Tool, um schnell Frontend-Prototypen zu erstellen."
+  },
+  {
+    "question": "Welche Schnittstelle ermöglicht das Ansprechen von ollama-Modellen?",
+    "groundTruth": "REST-Api"
+  },
+  {
+    "question": "Welche Sprache wird für das Projekt verwendet?",
+    "groundTruth": "TypeScript"
+  },
+  {
+    "question": "Wozu wird Hnswlib verwendet?",
+    "groundTruth": "Vektoren In-Memory speichern"
+  },
+  {
+    "question": "Welches Tool wird zur Code Completion verwendet?",
+    "groundTruth": "Continue"
+  }
+]
