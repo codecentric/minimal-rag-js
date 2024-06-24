@@ -1,4 +1,4 @@
-import { initializeRagChain } from "../ragChain"
+import { initializeRagChain } from "./ragChain"
 import {
   getAndVerifyCLIParameter,
   getQuestionsFromFile,

@@ -9,6 +9,7 @@
     "split": "npx ts-node enhancements/text-splitting.ts",
     "generate-test-data": "npx ts-node evaluation/generateTestData.ts",
     "evaluate": "source azure.env && npx ts-node evaluation/evaluate.ts",
+    "serve-for-evaluation": "source azure.env && npx ts-node evaluation/index.ts",
     "summarize": "npx ts-node evaluation/summarizeResults.ts"
   },
   "author": "Robin Schlenker",
