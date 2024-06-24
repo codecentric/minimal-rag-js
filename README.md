@@ -29,7 +29,7 @@ Some of the suggested enhancements are implemented in the `enhancements` directo
 
 ## Evaluation
 
-To evaluate the quality of the current RAG-Configuration a set of tools was provided.
+To evaluate the quality of the current RAG-Configuration a set of tools was provided. To separate the code from the minimal usecase, all chain definitions are defined in the `evaluations` directory. To serve the evaluated RAG-Pipeline run `yarn serve-for-evaluation`
 
 ### Prerequisites
 
